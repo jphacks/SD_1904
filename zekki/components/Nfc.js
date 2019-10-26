@@ -2,25 +2,77 @@ import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {addNfc, removeNfc} from '../actions/nfc';
 import {connect} from 'react-redux';
-import {typeAlias} from '@babel/types';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
+import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import {ButtonGroup, Avatar} from 'react-native-elements';
 
 class Nfc extends Component {
   constructor(props) {
     super(props);
     console.log(props);
-    super();
     this.state = {
+      isReading: false,
       selectedIndex: 2,
     };
     this.updateIndex = this.updateIndex.bind(this);
   }
-  updateIndex(selectedIndex) {
-    this.setState({selectedIndex});
-    console.log(selectedIndex);
+  
+  onPress(selectedIndex) {
+    if(selectedIndex === 0){
+      async () => {
+        try {
+          NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
+            NfcManager.unregisterTagEvent().catch(() => 0);
+            if (!this.props.nfcs.includes(tag.id)) {
+              console.warn(tag.id);
+              const index = this.props.nfcs.indexOf(tag.id);
+              this.props.addNfc(tag.id);
+            }
+            console.warn(this.props.nfcs);
+            this.setState({isReading:false});
+          });
+          await NfcManager.registerTagEvent();
+          this.setState({isReading:true});
+        } catch (ex) {
+          console.warn('ex', ex);
+          NfcManager.unregisterTagEvent();
+          this.setState({isReading:false});
+        }
+      }
+    } else if(selectedIndex === 1) {
+      async () => {
+        try {
+          NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
+            NfcManager.unregisterTagEvent().catch(() => 0);
+            console.warn(tag.id);
+
+            if (this.props.nfcs.includes(tag.id)) {
+              const index = this.props.nfcs.indexOf(tag.id);
+
+              this.props.removeNfc(index);
+            }
+            console.warn(this.props.nfcs);
+            this.setState({isReading:false});
+          });
+          await NfcManager.registerTagEvent();
+          this.setState({isReading:true});
+        } catch (ex) {
+          console.warn('ex', ex);
+          NfcManager.unregisterTagEvent();
+          this.setState({isReading:false});
+        }
+      }
+    }
   }
+
+  componentDidMount() {
+    NfcManager.start();
+  }
+
+  componentWillUnmout() {
+    NfcManager.setEventListener(NfcEvents.DiscoverTag, null);
+    NfcManager.unregisterTagEvent().catch(() => 0);
+  }
+
   render() {
     const buttons = ['Hello', 'World', 'Buttons'];
     const {selectedIndex} = this.state;
@@ -31,7 +83,7 @@ class Nfc extends Component {
         <View style={{flex: 4}}>
           {/* <Avatar rounded title="NFC" size="large" /> */}
           {(() => {
-            if (this.uselectIndex == '0') {
+            if (this.state.isReading === 0) {
               return <Text>dkmd</Text>;
             } else {
               return <Text>dddddd</Text>;
@@ -41,7 +93,7 @@ class Nfc extends Component {
 
         <View style={{flex: 1, margin: 0}}>
           <ButtonGroup
-            onPress={this.updateIndex}
+            onPress={this.onPress}
             selectedIndex={selectedIndex}
             buttons={buttons}
             containerStyle={{

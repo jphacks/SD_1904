@@ -6,7 +6,7 @@ const nfcs = (state = [], action) => {
       return [...state, action.nfcInfo];
     case REMOVE_NFC:
       const ret = [...state];
-      ret.splice(action.index);
+      ret.splice(action.index, 1);
       return ret;
     default:
       return state;
