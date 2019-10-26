@@ -10,7 +10,10 @@ export default class Home extends Component {
   render() {
     return (
       <View>
-        <Button title="add" onPress={() => Actions.addAlarm()} />
+        <Button
+          title="add"
+          onPress={() => Actions.addAlarm({isDefault: false})}
+        />
         <Button title="setting" onPress={() => Actions.setting()} />
         <Text>Home</Text>
       </View>
