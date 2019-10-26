@@ -17,15 +17,9 @@ export default class Home extends Component {
 
   render() {
     return (
-      <View>
-        <Button title="add" onPress={() => Actions.addAlarm()} />
-        <Button title="setting" onPress={() => Actions.setting()} />
-        <Text>Home</Text>
-        {this.state.alarms.map(e => {
-          return <AlarmInfo times={e.time} days={e.days} />;
-        })}
-        {/* <AlarmInfo times={2345} days={['asd', 'asds']} />
-        <AlarmInfo times={2345} days={['asd', 'asds']} /> */}
+      <View　style={{position: 'absolute', height: 50, width: 60, right: 0, bottom: 0}}>
+          <Button title="add" onPress={() => Actions.addAlarm()} 
+          />
       </View>
     );
   }
