@@ -6,6 +6,7 @@ import {persistReducer, persistStore} from 'redux-persist';
 const initialState = {
   alarms: [],
   nfcs: [],
+  defaultAlarm: {},
 };
 
 const persistConfig = {
