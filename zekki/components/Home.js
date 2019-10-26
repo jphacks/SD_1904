@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
-<<<<<<< Updated upstream
 import {View, Text, Button} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-=======
-
 import AlarmInfo from './AlarmInfo';
->>>>>>> Stashed changes
 
 export default class Home extends Component {
   constructor(props) {
