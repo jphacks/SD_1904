@@ -37,8 +37,6 @@ export default class Home extends Component {
         {this.state.alarms.map(e => {
           return <AlarmInfo info={e} />;
         })}
-        {/* <AlarmInfo times={2345} days={['asd', 'asds']} />
-        <AlarmInfo times={2345} days={['asd', 'asds']} /> */}
       </View>
     );
   }
