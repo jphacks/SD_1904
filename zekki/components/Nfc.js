@@ -10,15 +10,16 @@ class Nfc extends Component {
     super(props);
     console.log(props);
     this.state = {
+      selectedIndex: 0,
       isReading: false,
-      selectedIndex: 2,
     };
-    this.updateIndex = this.updateIndex.bind(this);
   }
-  
-  onPress(selectedIndex) {
-    if(selectedIndex === 0){
-      async () => {
+
+  onPress(_selectedIndex) {
+    this.setState({selectedIndex: _selectedIndex});
+    console.log(_selectedIndex);
+    if (_selectedIndex === 0) {
+      (async () => {
         try {
           NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
             NfcManager.unregisterTagEvent().catch(() => 0);
@@ -28,18 +29,18 @@ class Nfc extends Component {
               this.props.addNfc(tag.id);
             }
             console.warn(this.props.nfcs);
-            this.setState({isReading:false});
+            this.setState({isReading: false});
           });
           await NfcManager.registerTagEvent();
-          this.setState({isReading:true});
+          this.setState({isReading: true});
         } catch (ex) {
           console.warn('ex', ex);
           NfcManager.unregisterTagEvent();
-          this.setState({isReading:false});
+          this.setState({isReading: false});
         }
-      }
-    } else if(selectedIndex === 1) {
-      async () => {
+      })();
+    } else if (_selectedIndex === 1) {
+      (async () => {
         try {
           NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
             NfcManager.unregisterTagEvent().catch(() => 0);
@@ -51,16 +52,16 @@ class Nfc extends Component {
               this.props.removeNfc(index);
             }
             console.warn(this.props.nfcs);
-            this.setState({isReading:false});
+            this.setState({isReading: false});
           });
           await NfcManager.registerTagEvent();
-          this.setState({isReading:true});
+          this.setState({isReading: true});
         } catch (ex) {
           console.warn('ex', ex);
           NfcManager.unregisterTagEvent();
-          this.setState({isReading:false});
+          this.setState({isReading: false});
         }
-      }
+      })();
     }
   }
 
@@ -74,27 +75,25 @@ class Nfc extends Component {
   }
 
   render() {
-    const buttons = ['Hello', 'World', 'Buttons'];
-    const {selectedIndex} = this.state;
+    const buttons = ['追加', '削除'];
     // const {Avatar} = '<Text>dffe</Text>';
 
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
         <View style={{flex: 4}}>
-          {/* <Avatar rounded title="NFC" size="large" /> */}
           {(() => {
-            if (this.state.isReading === 0) {
-              return <Text>dkmd</Text>;
+            if (this.state.isReading) {
+              return <Text>読取中</Text>;
             } else {
-              return <Text>dddddd</Text>;
+              return <Text>ゴミ</Text>;
             }
           })()}
         </View>
 
         <View style={{flex: 1, margin: 0}}>
           <ButtonGroup
-            onPress={this.onPress}
-            selectedIndex={selectedIndex}
+            onPress={selectedIndex => this.onPress(selectedIndex)}
+            selectedIndex={this.state.selectedIndex}
             buttons={buttons}
             containerStyle={{
               height: '100%',

@@ -6,7 +6,15 @@ import {persistReducer, persistStore} from 'redux-persist';
 const initialState = {
   alarms: [],
   nfcs: [],
-  defaultAlarm: {},
+  defaultAlarm: {
+    hour: 9,
+    minutes: 0,
+    days: [true, true, true, true, true, true, true],
+    soundName: 'trumpet1',
+    sound: './trumpet1.mp3',
+    tweet: 'hello world',
+    difficulty: 0,
+  },
 };
 
 const persistConfig = {
@@ -18,4 +26,5 @@ const _persistReducer = persistReducer(persistConfig, reducers);
 const store = createStore(_persistReducer, initialState);
 
 const persistor = persistStore(store);
+
 export {store, persistor};

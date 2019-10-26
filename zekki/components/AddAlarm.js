@@ -16,6 +16,7 @@ import {Actions} from 'react-native-router-flux';
 class AddAlarm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       show: false,
       alarmInfo: {...this.props.defaultAlarm},
