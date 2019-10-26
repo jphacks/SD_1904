@@ -1,37 +1,58 @@
 import React, {Component} from 'react';
-import {View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {addNfc, removeNfc} from '../actions/nfc';
 import {connect} from 'react-redux';
-import { typeAlias } from '@babel/types';
+import {typeAlias} from '@babel/types';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {ButtonGroup, Avatar} from 'react-native-elements';
 
 class Nfc extends Component {
   constructor(props) {
     super(props);
     console.log(props);
+    super();
+    this.state = {
+      selectedIndex: 2,
+    };
+    this.updateIndex = this.updateIndex.bind(this);
+  }
+  updateIndex(selectedIndex) {
+    this.setState({selectedIndex});
+    console.log(selectedIndex);
   }
   render() {
+    const buttons = ['Hello', 'World', 'Buttons'];
+    const {selectedIndex} = this.state;
+    // const {Avatar} = '<Text>dffe</Text>';
+
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
-        <Text>Nfc</Text>
-
-        <View style={{flex:4,backgroundColor:"green"}}>
-          <Text>deded</Text>
+        <View style={{flex: 4}}>
+          {/* <Avatar rounded title="NFC" size="large" /> */}
+          {(() => {
+            if (this.uselectIndex == '0') {
+              return <Text>dkmd</Text>;
+            } else {
+              return <Text>dddddd</Text>;
+            }
+          })()}
         </View>
 
-        <View style={{flex:1,flexDirection: 'row'}}>
-          <TouchableOpacity style={styles.button} onPress={() => {this.props.addNfc('a');}}>
-            <Text style={styles.text}>add</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button} onPress={() => {this.props.removeNfc(this.props.nfcs.length - 1);}}>
-            <Text style={styles.text}>remove</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button} onPress={() => {this.props.removeNfc(this.props.nfcs.length - 1);}}>
-            <Text style={styles.text}>other</Text>
-          </TouchableOpacity>
+        <View style={{flex: 1, margin: 0}}>
+          <ButtonGroup
+            onPress={this.updateIndex}
+            selectedIndex={selectedIndex}
+            buttons={buttons}
+            containerStyle={{
+              height: '100%',
+              width: '100%',
+              marginLeft: 0,
+              marginTop: 0,
+              marginRight: 0,
+            }}
+          />
         </View>
-
       </View>
     );
   }
@@ -51,8 +72,6 @@ export default connect(
   },
 )(Nfc);
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -65,7 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontSize:30,
+    fontSize: 30,
     textAlign: 'center',
-  }
+  },
 });
