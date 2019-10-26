@@ -12,10 +12,10 @@ export default class App extends Component {
       <Router>
         <Scene key="root">
           <Scene key="home" initial component={Home} />
-          <Scene key="home" component={AddAlarm} />
-          <Scene key="home" component={Setting} />
-          <Scene key="home" component={Nfc} />
-          <Scene key="home" component={Alarm} />
+          <Scene key="addAlarm" component={AddAlarm} />
+          <Scene key="setting" component={Setting} />
+          <Scene key="nfc" component={Nfc} />
+          <Scene key="alarm" component={Alarm} />
         </Scene>
       </Router>
     );
