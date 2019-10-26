@@ -8,7 +8,10 @@ export default class Setting extends Component {
     return (
       <View>
         <Button title="NFC" onPress={() => Actions.nfc()} />
-        <Button title="デフォルト設定" onPress={() => Actions.addAlarm()} />
+        <Button
+          title="デフォルト設定"
+          onPress={() => Actions.addAlarm({isDefault: true})}
+        />
         <Button title="アラーム音の追加" onPress={() => this.pickaudio()} />
         <Button title="ライセンス" />
       </View>
