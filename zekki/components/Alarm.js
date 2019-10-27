@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
 import {Button, View, Text} from 'react-native';
+import {setIsRinging} from '../actions/isRinging';
 
 import TrackPlayer from 'react-native-track-player';
 import SystemSetting from 'react-native-system-setting';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
+import {connect} from 'react-redux';
 
 import TrackPlayerEventTypes from 'react-native-track-player';
+import {ActionConst} from 'react-native-router-flux';
 
 var music = {
   id: 'unique track id', // Must be a string, required
   url: require('./trumpet1.mp3'), // Load media from the network
 };
 
-export default class Alarm extends Component {
+class Alarm extends Component {
   constructor(props) {
     super(props);
     TrackPlayer.setupPlayer().then(() => {
@@ -38,12 +41,11 @@ export default class Alarm extends Component {
       try {
         NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
           NfcManager.unregisterTagEvent().catch(() => 0);
-          console.warn('NFC read');
           TrackPlayer.stop();
+          this.props.setIsRinging(false);
         });
         await NfcManager.registerTagEvent();
       } catch (ex) {
-        console.warn('ex', ex);
         NfcManager.unregisterTagEvent();
       }
     })();
@@ -73,3 +75,15 @@ export default class Alarm extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    isRinging: state.isRinging,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    setIsRinging,
+  },
+)(Alarm);

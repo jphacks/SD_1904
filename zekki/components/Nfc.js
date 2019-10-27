@@ -9,43 +9,38 @@ import * as Progress from 'react-native-progress';
 class Nfc extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       selectedIndex: 0,
       isReading: false,
       height: 0,
-      width:0,
+      width: 0,
     };
   }
 
-  onLayout = (e) => {
+  onLayout = e => {
     /* コンポーネントの高さを取得し、stateに保存 */
     this.setState({
       height: e.nativeEvent.layout.height,
       width: e.nativeEvent.layout.width,
     });
-  }
+  };
 
   onPress(_selectedIndex) {
     this.setState({selectedIndex: _selectedIndex});
-    console.log(_selectedIndex);
     if (_selectedIndex === 0) {
       (async () => {
         try {
           NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
             NfcManager.unregisterTagEvent().catch(() => 0);
             if (!this.props.nfcs.includes(tag.id)) {
-              console.warn(tag.id);
               const index = this.props.nfcs.indexOf(tag.id);
               this.props.addNfc(tag.id);
             }
-            console.warn(this.props.nfcs);
             this.setState({isReading: false});
           });
           await NfcManager.registerTagEvent();
           this.setState({isReading: true});
         } catch (ex) {
-          console.warn('ex', ex);
           NfcManager.unregisterTagEvent();
           this.setState({isReading: false});
         }
@@ -55,20 +50,17 @@ class Nfc extends Component {
         try {
           NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
             NfcManager.unregisterTagEvent().catch(() => 0);
-            console.warn(tag.id);
 
             if (this.props.nfcs.includes(tag.id)) {
               const index = this.props.nfcs.indexOf(tag.id);
 
               this.props.removeNfc(index);
             }
-            console.warn(this.props.nfcs);
             this.setState({isReading: false});
           });
           await NfcManager.registerTagEvent();
           this.setState({isReading: true});
         } catch (ex) {
-          console.warn('ex', ex);
           NfcManager.unregisterTagEvent();
           this.setState({isReading: false});
         }
@@ -90,34 +82,42 @@ class Nfc extends Component {
     return (
       <View onLayout={this.onLayout} style={{flex: 1, flexDirection: 'column'}}>
         {/* <View style={{flex: 4}}> */}
-          {(() => {
-            if (this.state.isReading) {
-              return (
-
-                <View style={{flex: 4,}}>
-                <Progress.Circle thickness={3} size={100} indeterminate={true} style={{position:'absolute', bottom:'40%',right:'40%'}} />
-                <Text h4 style={{top:50,textAlign:'center',color:'gray'}}>読み込み中</Text>
-                  <Icon
-                    name='nfc'
-                    size={400}
-                    containerStyle={{opacity:0.1,top:50,}}
-                  />
+        {(() => {
+          if (this.state.isReading) {
+            return (
+              <View style={{flex: 4}}>
+                <Progress.Circle
+                  thickness={3}
+                  size={100}
+                  indeterminate={true}
+                  style={{position: 'absolute', bottom: '40%', right: '40%'}}
+                />
+                <Text h4 style={{top: 50, textAlign: 'center', color: 'gray'}}>
+                  読み込み中
+                </Text>
+                <Icon
+                  name="nfc"
+                  size={400}
+                  containerStyle={{opacity: 0.1, top: 50}}
+                />
               </View>
-              );
-            } else {
-              return (
-                <View　style={{flex: 4}}>
-                <Text h4 style={{top:50,textAlign:'center',color:'gray'}}>NFCをタッチしてください</Text>
-                  <Icon
-                    name='nfc'
-                    size={400}
-                    containerStyle={{opacity:0.1,top:50,}}
-                  />
-                  </View>
-              );
-              // return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
-            }
-          })()}
+            );
+          } else {
+            return (
+              <View style={{flex: 4}}>
+                <Text h4 style={{top: 50, textAlign: 'center', color: 'gray'}}>
+                  NFCをタッチしてください
+                </Text>
+                <Icon
+                  name="nfc"
+                  size={400}
+                  containerStyle={{opacity: 0.1, top: 50}}
+                />
+              </View>
+            );
+            // return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
+          }
+        })()}
         {/* </View> */}
 
         <View style={{flex: 1, margin: 0}}>

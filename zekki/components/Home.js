@@ -11,26 +11,6 @@ import {Icon, Avatar} from 'react-native-elements';
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.alarms);
-    this.state = {
-      alarms: [
-        {
-          hour: 8,
-          minute: 45,
-          days: [true, false, true, true, true, true, false],
-        },
-        {
-          hour: 15,
-          minute: 8,
-          days: [false, false, true, true, false, true, false],
-        },
-        {
-          hour: 24,
-          minute: 8,
-          days: [true, false, true, true, false, true, false],
-        },
-      ],
-    };
   }
 
   render() {

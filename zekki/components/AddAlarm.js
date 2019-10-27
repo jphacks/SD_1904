@@ -109,8 +109,8 @@ class AddAlarm extends Component {
             icon={<Icon name="queue-music" size={30} color="blue" />}
             title={this.state.alarmInfo.soundName}
             type="clear"
-            onPress = {() => this.pickaudio()}
-            titleStyle={{fontSize:30}}
+            onPress={() => this.pickaudio()}
+            titleStyle={{fontSize: 30}}
           />
           {/* <TextInput
             value={this.state.alarmInfo.soundName}
@@ -184,9 +184,7 @@ class AddAlarm extends Component {
     const res = await DocumentPicker.pick({
       type: [DocumentPicker.types.audio],
     });
-    console.log(res);
   }
-  
 }
 
 const mapStateToProps = state => {
