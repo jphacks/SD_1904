@@ -9,17 +9,28 @@ export default class AlarmInfo extends Component {
 
   render() {
     const youbis = [];
-    for (const [i, day] of this.props.days) {
-      if (day) {
+    const minutes = [];
+    minutes.push('0' + this.props.info.minute);
+    this.props.info.days.map((data, i) => {
+      if (data) {
         youbis.push(<Text>{this.youbilist[i]}</Text>);
       }
-    }
+    });
 
     return (
-      <View>
-        {youbis.map(data => {
-          return <Text key={data}>{data}</Text>;
-        })}
+      <View style={{flexDirection: 'row'}}>
+        <View>
+          <Text>
+            {this.props.info.hour}:
+            {minutes[0].substring(minutes[0].length - 2, minutes[0].length)}
+          </Text>
+        </View>
+
+        <View style={{flexDirection: 'row'}}>
+          {youbis.map((data, i) => {
+            return <Text>{youbis[i]}</Text>;
+          })}
+        </View>
       </View>
     );
   }
