@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, View, Text} from 'react-native';
 
 import TrackPlayer from 'react-native-track-player';
+import SystemSetting from 'react-native-system-setting'
 
 import TrackPlayerEventTypes from 'react-native-track-player';
 
@@ -12,8 +13,12 @@ var music = {
 
 TrackPlayer.setupPlayer().then(() => {
   TrackPlayer.add([music]).then(function() {
-    // TrackPlayer.play();
-    TrackPlayer.stop();
+    // SystemSetting.setVolume(1.0);
+    TrackPlayer.play();
+  });
+
+  const volumeListener = SystemSetting.addVolumeListener((data) => {
+    // SystemSetting.setVolume(1.0);
   });
 
   TrackPlayer.addEventListener('playback-queue-ended', (track, position) => {

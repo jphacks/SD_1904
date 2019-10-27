@@ -6,6 +6,7 @@ import AlarmInfo from './AlarmInfo';
 import {addActiveAlarm, removeActiveAlarm} from '../actions/activeAlarms';
 import {connect} from 'react-redux';
 import {setIsRinging} from '../actions/isRinging';
+import { Icon, Avatar} from 'react-native-elements';
 
 class Home extends Component {
   constructor(props) {
@@ -33,9 +34,17 @@ class Home extends Component {
 
   render() {
     return (
-      <View>
-        <Button
-          title="add"
+      <View style={{flex:1}}>
+        <Avatar
+          size={100}
+          rounded
+          overlayContainerStyle={{backgroundColor: 'white'}}
+          icon={{              
+            name:'add-circle-outline',
+            color:"blue",
+            size:100,
+          }}
+          containerStyle={{position:"absolute",right:"5%",bottom:"5%"}}
           onPress={() => Actions.addAlarm({isDefault: false})}
         />
         <Button

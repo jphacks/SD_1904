@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Router, Scene, Lightbox} from 'react-native-router-flux';
+import {Router, Scene, Actions} from 'react-native-router-flux';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './createStore';
@@ -27,6 +27,8 @@ export default class App extends Component {
                 initial={true}
                 component={Root}
                 _isRinging={this.props.alarmID}
+                onRight={() => Actions.setting()}
+                rightTitle = 'SETTING'
               />
               <Scene key="addAlarm" component={AddAlarm} />
               <Scene key="setting" component={Setting} />
