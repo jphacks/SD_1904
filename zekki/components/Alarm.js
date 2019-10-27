@@ -41,8 +41,12 @@ class Alarm extends Component {
       try {
         NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
           NfcManager.unregisterTagEvent().catch(() => 0);
-          TrackPlayer.stop();
-          this.props.setIsRinging(false);
+          if(this.props.nfcs.includes(tag.id)){
+            TrackPlayer.stop();
+            this.props.setIsRinging(false);
+          }else {
+            (async () => {await NfcManager.registerTagEvent()})();
+          }
         });
         await NfcManager.registerTagEvent();
       } catch (ex) {
@@ -78,6 +82,7 @@ class Alarm extends Component {
 const mapStateToProps = state => {
   return {
     isRinging: state.isRinging,
+    nfcs: state.nfcs,
   };
 };
 
