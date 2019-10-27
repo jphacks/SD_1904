@@ -10,7 +10,6 @@ var music = {
   id: 'unique track id', // Must be a string, required
   url: require('./trumpet1.mp3'), // Load media from the network
 };
-
 export default class Alarm extends Component {
   constructor(props){
     super(props);
