@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Button} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+
 import {setIsRinging} from '../actions/isRinging';
 import Home from './Home';
 import Alarm from './Alarm';

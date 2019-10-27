@@ -6,3 +6,4 @@ export const SET_IS_RINGING = 'SET_IS_RINGING';
 export const REMOVE_ALARM = 'REMOVE_ALARM';
 export const REMOVE_NFC = 'REMOVE_NFC';
 export const REMOVE_ACTIVE_ALARM = 'REMOVE_ACTIVE_ALARM';
+export const REPLACE_ALARM = 'REPLACE_ALARM';

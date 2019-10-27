@@ -22,6 +22,5 @@ export default class Setting extends Component {
     const res = await DocumentPicker.pick({
       type: [DocumentPicker.types.audio],
     });
-    console.log(res);
   }
 }
