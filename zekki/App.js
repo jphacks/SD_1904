@@ -9,21 +9,27 @@ import AddAlarm from './components/AddAlarm';
 import Setting from './components/Setting';
 import Nfc from './components/Nfc';
 import Alarm from './components/Alarm';
+import Root from './components/Root';
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <Router>
             <Scene key="root">
-              <Scene 
-                key="home" 
-                initial
-                component={Home}
+              <Scene
+                key="home"
+                initial={true}
+                component={Root}
+                _isRinging={this.props.alarmID}
                 onRight={() => Actions.setting()}
                 rightTitle = 'SETTING'
-               />
+              />
               <Scene key="addAlarm" component={AddAlarm} />
               <Scene key="setting" component={Setting} />
               <Scene key="nfc" component={Nfc} />

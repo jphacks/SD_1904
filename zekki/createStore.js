@@ -5,6 +5,7 @@ import {persistReducer, persistStore} from 'redux-persist';
 
 const initialState = {
   alarms: [],
+  activeAlarms: [],
   nfcs: [],
   defaultAlarm: {
     hour: 9,
@@ -14,7 +15,9 @@ const initialState = {
     sound: './trumpet1.mp3',
     tweet: 'hello world',
     difficulty: 0,
+    isActive: false,
   },
+  isRinging: false,
 };
 
 const persistConfig = {
