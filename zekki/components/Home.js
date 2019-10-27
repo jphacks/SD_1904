@@ -44,7 +44,6 @@ export default class Home extends Component {
           containerStyle={{position:"absolute",right:"5%",bottom:"5%"}}
           onPress={() => Actions.addAlarm({isDefault: false})}
         />
-        <Button title="setting" onPress={() => Actions.setting()} />
         <Text>Home</Text>
         {this.state.alarms.map(e => {
           return <AlarmInfo info={e} />;

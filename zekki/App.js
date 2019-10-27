@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Router, Scene} from 'react-native-router-flux';
+import {Router, Scene, Actions} from 'react-native-router-flux';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './createStore';
@@ -17,7 +17,13 @@ export default class App extends Component {
         <PersistGate persistor={persistor}>
           <Router>
             <Scene key="root">
-              <Scene key="home" initial component={Home} />
+              <Scene 
+                key="home" 
+                initial
+                component={Home}
+                onRight={() => Actions.setting()}
+                rightTitle = 'SETTING'
+               />
               <Scene key="addAlarm" component={AddAlarm} />
               <Scene key="setting" component={Setting} />
               <Scene key="nfc" component={Nfc} />
