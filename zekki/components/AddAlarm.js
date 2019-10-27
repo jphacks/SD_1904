@@ -184,7 +184,12 @@ class AddAlarm extends Component {
     const res = await DocumentPicker.pick({
       type: [DocumentPicker.types.audio],
     });
+
+    const state = {...this.state};
+    state.alarmInfo.soundName = res.name;
+    this.setState(state);
   }
+
 }
 
 const mapStateToProps = state => {

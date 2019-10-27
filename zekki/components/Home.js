@@ -25,8 +25,10 @@ class Home extends Component {
             color:"blue",
             size:80,
           }}
+
           containerStyle={{position: 'absolute', right: '5%', bottom: '5%'}}
           onPress={() => Actions.addAlarm({isDefault: false})}
+
         />
         <Button
           title="wakeup"
