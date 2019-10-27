@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import {Text, View, ListView, FlatList} from 'react-native';
-import {ListItem} from 'react-native-elements';
+import {Text, View, ListView, FlatList, Switch} from 'react-native';
+import {ListItem, CheckBox} from 'react-native-elements';
 
 export default class AlarmInfo extends Component {
   constructor(props) {
     super(props);
     this.youbilist = ['月', '火', '水', '木', '金', '土', '日'];
+    this.state = {
+      isActive: this.props.info.isActive,
+    };
   }
 
   render() {
@@ -42,6 +45,12 @@ export default class AlarmInfo extends Component {
             }
             titleStyle={{fontSize: 30}}
             subtitle={youma}
+            switch={{
+              onChange: () => {
+                this.setState({isActive: !this.state.isActive});
+              },
+              value: this.state.isActive,
+            }}
             bottomDivider
           />
         </View>
