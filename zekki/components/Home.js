@@ -26,7 +26,6 @@ export default class Home extends Component {
         },
       ],
     };
-    console.log(this.state.alarms);
   }
 
   render() {
