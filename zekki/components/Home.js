@@ -4,13 +4,14 @@ import {Actions} from 'react-native-router-flux';
 import Launcher from 'react-native-app-launcher';
 import AlarmInfo from './AlarmInfo';
 import {addActiveAlarm, removeActiveAlarm} from '../actions/activeAlarms';
+import {addAlarm, removeAlarm} from '../actions/alarms';
 import {connect} from 'react-redux';
-import {setIsRinging} from '../actions/isRinging';
-import { Icon, Avatar} from 'react-native-elements';
+import {Icon, Avatar} from 'react-native-elements';
 
 class Home extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.alarms);
     this.state = {
       alarms: [
         {
@@ -34,17 +35,17 @@ class Home extends Component {
 
   render() {
     return (
-      <View style={{flex:1}}>
+      <View style={{flex: 1}}>
         <Avatar
           size={100}
           rounded
           overlayContainerStyle={{backgroundColor: 'white'}}
-          icon={{              
-            name:'add-circle-outline',
-            color:"blue",
-            size:100,
+          icon={{
+            name: 'add-circle-outline',
+            color: 'blue',
+            size: 100,
           }}
-          containerStyle={{position:"absolute",right:"5%",bottom:"5%"}}
+          containerStyle={{position: 'absolute', right: '5%', bottom: '5%'}}
           onPress={() => Actions.addAlarm({isDefault: false})}
         />
         <Button
@@ -55,8 +56,8 @@ class Home extends Component {
         />
         <Button title="setting" onPress={() => Actions.setting()} />
         <Text>Home</Text>
-        {this.state.alarms.map(e => {
-          return <AlarmInfo info={e} />;
+        {this.props.alarms.map((e, i) => {
+          return <AlarmInfo info={e} index={i} />;
         })}
       </View>
     );
@@ -66,16 +67,13 @@ class Home extends Component {
 const mapStateToProps = state => {
   return {
     alarms: state.alarms,
-    activeAlarms: state.activeAlarms,
-    isRinging: state.isRinging,
   };
 };
 
 export default connect(
   mapStateToProps,
   {
-    addActiveAlarm,
-    removeActiveAlarm,
-    setIsRinging,
+    addAlarm,
+    removeAlarm,
   },
 )(Home);

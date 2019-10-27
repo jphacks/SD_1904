@@ -83,11 +83,23 @@ class Nfc extends Component {
         <View style={{flex: 4}}>
           {(() => {
             if (this.state.isReading) {
-              return <View style={styles.circle}>
-                <Progress.Circle size={100} indeterminate={true} showsText='true'formatText="sddwdw" />
-                <Text style={styles.text}>読取中</Text></View>;
+              return (
+                <View style={styles.circle}>
+                  <Progress.Circle
+                    size={100}
+                    indeterminate={true}
+                    showsText="true"
+                    formatText="sddwdw"
+                  />
+                  <Text style={styles.text}>読取中</Text>
+                </View>
+              );
             } else {
-              return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
+              return (
+                <View style={styles.circle}>
+                  <Text style={styles.text}>NFCをタッチしてください</Text>
+                </View>
+              );
             }
           })()}
         </View>
@@ -138,21 +150,19 @@ const styles = StyleSheet.create({
   },
   circle: {
     position: 'relative',
-    width:200,
-    height:200,
-    top:100,
-    bottom:100,
-    right:100,
-    left:100,
-    borderRadius:100,
+    width: 200,
+    height: 200,
+    top: 100,
+    bottom: 100,
+    right: 100,
+    left: 100,
+    borderRadius: 100,
 
-    backgroundColor:'blue',
+    backgroundColor: 'blue',
   },
-  text:{
-    top:50,
+  text: {
+    top: 50,
     fontSize: 30,
-    color:"white",
+    color: 'white',
   },
 });
-
-
