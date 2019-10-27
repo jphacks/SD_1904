@@ -7,7 +7,7 @@ import {
 
 import TrackPlayer from 'react-native-track-player';
 import SystemSetting from 'react-native-system-setting'
-
+import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import TrackPlayerEventTypes from 'react-native-track-player';
 
 var music = {
@@ -32,9 +32,18 @@ TrackPlayer.setupPlayer().then(() => {
   // The player is ready to be used
 });
 
-
-
-
+(async () => {
+  try {
+    NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
+      NfcManager.unregisterTagEvent().catch(() => 0);
+      console.warn('NFC read');
+      TrackPlayer.stop();
+    });
+    await NfcManager.registerTagEvent();
+  } catch (ex) {
+      console.warn('ex', ex);
+      NfcManager.unregisterTagEvent();
+  }})();
 
 export default class Alarm extends Component {
   render() {
