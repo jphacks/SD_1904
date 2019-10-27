@@ -36,7 +36,6 @@ class Home extends Component {
             Launcher.setAlarm('0', new Date().getTime() + 10000, false)
           }
         />
-        <Text>Home</Text>
         {this.props.alarms.map((e, i) => {
           return <AlarmInfo info={e} index={i} />;
         })}
