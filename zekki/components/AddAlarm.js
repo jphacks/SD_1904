@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {View} from 'react-native';
 import {addAlarm, removeAlarm} from '../actions/alarms';
 import {setDefaultAlarm} from '../actions/defaultAlarm';
 import {connect} from 'react-redux';
@@ -54,8 +48,6 @@ class AddAlarm extends Component {
     const show = this.state.show;
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
-        {/* <Button title="button" onPress={() => this.showDatePicker()} /> */}
-
         <View style={{flex: 1}}>
           <Button
             titleStyle={{fontSize: 110}}
@@ -112,59 +104,7 @@ class AddAlarm extends Component {
             onPress={() => this.pickaudio()}
             titleStyle={{fontSize: 30}}
           />
-          {/* <TextInput
-            value={this.state.alarmInfo.soundName}
-            onChangeText={text => {
-              this.setText(text, 'soundName');
-            }}
-          /> */}
         </View>
-
-        {/* <View>
-          <TextInput
-            value={this.state.alarmInfo.tweet}
-            onChangeText={text => {
-              this.setText(text, 'tweet');
-            }}
-          />
-        </View> */}
-        {/* <View>
-          <TextInput
-            value={this.state.alarmInfo.difficulty}
-            onChangeText={text => {
-              this.setText(text, 'difficulty');
-            }}
-            keyboardType="decimal-pad"
-          />
-        </View> */}
-
-        {/* <Button
-          title="add"
-          onPress={() => {
-            this.props.addAlarm({a: 1});
-          }}
-        />
-        <Button
-          title="remove"
-          onPress={() => {
-            this.props.removeAlarm(this.props.alarms.length - 1);
-          }}
-        />
-        <Button
-          title="set"
-          onPress={() => {
-            this.props.setDefaultAlarm({
-              hour: 10,
-              minutes: 10,
-              days: [false, false, true, false, false, true, false],
-              sound: 'content://',
-              soundName: 'test',
-              tweet: 'twiiter',
-              difficulty: 0,
-            });
-          }}
-          />
-        */}
         <Button
           title="ok"
           onPress={() => {

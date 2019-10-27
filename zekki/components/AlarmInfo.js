@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Alert} from 'react-native';
+import {View, Alert, TouchableOpacity} from 'react-native';
 import {addActiveAlarm, removeActiveAlarm} from '../actions/activeAlarms';
 import {replaceAlarm, removeAlarm} from '../actions/alarms';
 import {connect} from 'react-redux';
@@ -10,9 +10,6 @@ class AlarmInfo extends Component {
   constructor(props) {
     super(props);
     this.youbilist = ['月', '火', '水', '木', '金', '土', '日'];
-    this.state = {
-      isActive: this.props.info.isActive,
-    };
   }
 
   removeAlarmInfo() {
@@ -21,7 +18,7 @@ class AlarmInfo extends Component {
     );
 
     this.props.removeAlarm(this.props.index, this.props.info);
-    if (this.state.isActive) {
+    if (this.props.info.isActive) {
       Launcher.clearAlarm(this.props.index);
     }
   }
@@ -44,42 +41,37 @@ class AlarmInfo extends Component {
 
     return (
       <View style={{flexDirection: 'row'}}>
-        {/*<View>
-          <Text>
-            {this.props.info.hour}:
-            {minutes[0].substring(minutes[0].length - 2, minutes[0].length)}
-          </Text>
-        </View>*/}
-
-        <View style={{flex: 1}}>
+        <TouchableOpacity
+          hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
+          onPress={() => {
+            Alert.alert(
+              '削除しますか？',
+              'いいえ',
+              [
+                {
+                  text: 'OK',
+                  onPress: () => this.removeAlarmInfo(),
+                },
+                {
+                  text: 'キャンセル',
+                  style: 'cancel',
+                },
+              ],
+              {cancelable: false},
+            );
+          }}
+          style={{flex: 1}}>
           <ListItem
             title={
               this.props.info.hour +
               kugi[0] +
               minutes[0].substring(minutes[0].length - 2, minutes[0].length)
             }
-            // onPress={Alert.alert(
-            //   '削除しますか？',
-            //   'いいえ',
-            //   [
-            //     {
-            //       text: 'OK',
-            //       // onPress: () => this.removeAlarmInfo(),
-            //     },
-            //     {
-            //       text: 'キャンセル',
-            //       style: 'cancel',
-            //     },
-            //   ],
-            //   {cancelable: false},
-            // )}
             titleStyle={{fontSize: 30}}
             subtitle={youma}
             switch={{
               onChange: () => {
-                this.setState({isActive: !this.state.isActive});
-
-                if (this.state.isActive) {
+                if (this.props.info.isActive) {
                   this.props.removeActiveAlarm(
                     this.props.activeAlarms.indexOf(this.props.index),
                   );
@@ -103,27 +95,33 @@ class AlarmInfo extends Component {
                   for (let i = 0; i < 7; i++) {
                     const nd = (i + _day) % 7;
                     if (alarmInfo.days[nd]) {
-                      dd = nd;
+                      dd = i;
                       break;
                     }
                   }
 
-                  if (_hour > alarmInfo.hour && _minutes > alarmInfo.minutes) {
-                    date.setDate(date.getDate() + 1);
+                  if (
+                    _hour * 60 + _minutes >
+                    alarmInfo.hour * 60 + alarmInfo.minutes
+                  ) {
+                    //今日
+                    if (dd === 0) dd++;
                   }
                   date.setDate(date.getDate() + dd);
                   date.setHours(alarmInfo.hour);
                   date.setMinutes(alarmInfo.minutes);
-
+                  date.setSeconds(0);
+                  date.setMilliseconds(0);
+                  console.log(date);
                   // setalarm
                   Launcher.setAlarm(this.props.index, date.getTime(), false);
                 }
               },
-              value: this.state.isActive,
+              value: this.props.info.isActive,
             }}
             bottomDivider
           />
-        </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -132,6 +130,7 @@ class AlarmInfo extends Component {
 const mapStateToProps = state => {
   return {
     activeAlarms: state.activeAlarms,
+    alarms: state.alarms,
   };
 };
 

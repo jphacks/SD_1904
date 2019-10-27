@@ -17,7 +17,11 @@ const initialState = {
     difficulty: 0,
     isActive: false,
   },
-  isRinging: false,
+  isRinging: {
+    isRinging: false,
+    isRestarted: false,
+    alarmID: null,
+  },
 };
 
 const persistConfig = {

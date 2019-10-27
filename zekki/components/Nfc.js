@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Alert} from 'react-native';
+import {View, Alert} from 'react-native';
 import {addNfc, removeNfc} from '../actions/nfc';
 import {connect} from 'react-redux';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
@@ -120,10 +120,8 @@ class Nfc extends Component {
                 />
               </View>
             );
-            // return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
           }
         })()}
-        {/* </View> */}
 
         <View style={{flex: 1, margin: 0}}>
           <ButtonGroup
@@ -157,33 +155,3 @@ export default connect(
     removeNfc,
   },
 )(Nfc);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#333333',
-  },
-  button: {
-    flex: 1,
-    backgroundColor: 'lightgray',
-    justifyContent: 'center',
-  },
-  circle: {
-    position: 'relative',
-    width: 200,
-    height: 200,
-    top: 100,
-    bottom: 100,
-    right: 100,
-    left: 100,
-    borderRadius: 100,
-
-    backgroundColor: 'blue',
-  },
-  text: {
-    top: 50,
-    fontSize: 30,
-    color: 'white',
-  },
-});

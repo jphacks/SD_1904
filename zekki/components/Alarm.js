@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
-import {setIsRinging} from '../actions/isRinging';
+import {setIsRinging, setAlarmID} from '../actions/isRinging';
 import {removeActiveAlarm} from '../actions/activeAlarms';
 import {replaceAlarm} from '../actions/alarms';
 
@@ -21,7 +21,7 @@ class Alarm extends Component {
     TrackPlayer.setupPlayer().then(() => {
       TrackPlayer.add([music])
         .then(function() {
-          // SystemSetting.setVolume(1.0);
+          SystemSetting.setVolume(1.0);
           TrackPlayer.play();
         })
         .catch(err => {
@@ -37,7 +37,6 @@ class Alarm extends Component {
           TrackPlayer.add([music]);
         },
       );
-      // The player is ready to be used
     });
 
     (async () => {
@@ -54,6 +53,7 @@ class Alarm extends Component {
             this.props.replaceAlarm(this.props.alarmID, alarmInfo);
 
             this.props.setIsRinging(false);
+            this.props.setAlarmID(null);
           } else {
             (async () => {
               await NfcManager.registerTagEvent();
@@ -90,6 +90,7 @@ export default connect(
   mapStateToProps,
   {
     setIsRinging,
+    setAlarmID,
     removeActiveAlarm,
     replaceAlarm,
   },
