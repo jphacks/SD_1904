@@ -4,6 +4,7 @@ import {addNfc, removeNfc} from '../actions/nfc';
 import {connect} from 'react-redux';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import {ButtonGroup, Avatar} from 'react-native-elements';
+import * as Progress from 'react-native-progress';
 
 class Nfc extends Component {
   constructor(props) {
@@ -76,16 +77,17 @@ class Nfc extends Component {
 
   render() {
     const buttons = ['追加', '削除'];
-    // const {Avatar} = '<Text>dffe</Text>';
 
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
         <View style={{flex: 4}}>
           {(() => {
             if (this.state.isReading) {
-              return <Text>読取中</Text>;
+              return <View style={styles.circle}>
+                <Progress.Circle size={100} indeterminate={true} showsText='true'formatText="sddwdw" />
+                <Text style={styles.text}>読取中</Text></View>;
             } else {
-              return <Text>ゴミ</Text>;
+              return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
             }
           })()}
         </View>
@@ -134,8 +136,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
     justifyContent: 'center',
   },
-  text: {
+  circle: {
+    position: 'relative',
+    width:200,
+    height:200,
+    top:100,
+    bottom:100,
+    right:100,
+    left:100,
+    borderRadius:100,
+
+    backgroundColor:'blue',
+  },
+  text:{
+    top:50,
     fontSize: 30,
-    textAlign: 'center',
+    color:"white",
   },
 });
+
+
