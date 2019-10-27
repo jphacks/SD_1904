@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {addNfc, removeNfc} from '../actions/nfc';
 import {connect} from 'react-redux';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
-import {ButtonGroup, Avatar} from 'react-native-elements';
+import {ButtonGroup, Avatar, Icon} from 'react-native-elements';
 import * as Progress from 'react-native-progress';
 
 class Nfc extends Component {
@@ -87,7 +87,15 @@ class Nfc extends Component {
                 <Progress.Circle size={100} indeterminate={true} showsText='true'formatText="sddwdw" />
                 <Text style={styles.text}>読取中</Text></View>;
             } else {
-              return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
+              return (
+                  <Icon
+                    name='nfc'
+                    size={400}
+                    containerStyle={{opacity:0.1,marginVertical:"auto",}}
+
+                  />
+              );
+              // return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
             }
           })()}
         </View>
