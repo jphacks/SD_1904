@@ -53,7 +53,6 @@ class Home extends Component {
             Launcher.setAlarm('0', new Date().getTime() + 10000, false)
           }
         />
-        <Button title="setting" onPress={() => Actions.setting()} />
         <Text>Home</Text>
         {this.state.alarms.map(e => {
           return <AlarmInfo info={e} />;
