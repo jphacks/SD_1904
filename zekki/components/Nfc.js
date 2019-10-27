@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {addNfc, removeNfc} from '../actions/nfc';
 import {connect} from 'react-redux';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
-import {ButtonGroup, Avatar, Icon} from 'react-native-elements';
+import {ButtonGroup, Avatar, Icon, Text} from 'react-native-elements';
 import * as Progress from 'react-native-progress';
 
 class Nfc extends Component {
@@ -13,7 +13,17 @@ class Nfc extends Component {
     this.state = {
       selectedIndex: 0,
       isReading: false,
+      height: 0,
+      width:0,
     };
+  }
+
+  onLayout = (e) => {
+    /* コンポーネントの高さを取得し、stateに保存 */
+    this.setState({
+      height: e.nativeEvent.layout.height,
+      width: e.nativeEvent.layout.width,
+    });
   }
 
   onPress(_selectedIndex) {
@@ -77,28 +87,37 @@ class Nfc extends Component {
 
   render() {
     const buttons = ['追加', '削除'];
-
     return (
-      <View style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{flex: 4}}>
+      <View onLayout={this.onLayout} style={{flex: 1, flexDirection: 'column'}}>
+        {/* <View style={{flex: 4}}> */}
           {(() => {
             if (this.state.isReading) {
-              return <View style={styles.circle}>
-                <Progress.Circle size={100} indeterminate={true} showsText='true'formatText="sddwdw" />
-                <Text style={styles.text}>読取中</Text></View>;
-            } else {
               return (
+                <View style={{flex: 4,}}>
+                <Progress.Circle thickness={3} size={100} indeterminate={true} style={{position:'absolute', bottom:'40%',right:'40%'}} />
+                <Text h4 style={{top:50,textAlign:'center',color:'gray'}}>読み込み中</Text>
                   <Icon
                     name='nfc'
                     size={400}
-                    containerStyle={{opacity:0.1,marginVertical:"auto",}}
-
+                    containerStyle={{opacity:0.1,top:50,}}
                   />
+              </View>
+              );
+            } else {
+              return (
+                <View　style={{flex: 4}}>
+                <Text h4 style={{top:50,textAlign:'center',color:'gray'}}>NFCをタッチしてください</Text>
+                  <Icon
+                    name='nfc'
+                    size={400}
+                    containerStyle={{opacity:0.1,top:50,}}
+                  />
+                  </View>
               );
               // return <View style={styles.circle}><Text　style={styles.text}>NFCをタッチしてください</Text></View>;
             }
           })()}
-        </View>
+        {/* </View> */}
 
         <View style={{flex: 1, margin: 0}}>
           <ButtonGroup
