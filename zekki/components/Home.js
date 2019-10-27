@@ -37,13 +37,13 @@ class Home extends Component {
     return (
       <View style={{flex: 1}}>
         <Avatar
-          size={100}
+          size={80}
           rounded
-          overlayContainerStyle={{backgroundColor: 'white'}}
-          icon={{
-            name: 'add-circle-outline',
-            color: 'blue',
-            size: 100,
+          overlayContainerStyle={{backgroundColor: 'transparent'}}
+          icon={{              
+            name:'add-circle-outline',
+            color:"blue",
+            size:80,
           }}
           containerStyle={{position: 'absolute', right: '5%', bottom: '5%'}}
           onPress={() => Actions.addAlarm({isDefault: false})}
@@ -54,7 +54,6 @@ class Home extends Component {
             Launcher.setAlarm('0', new Date().getTime() + 10000, false)
           }
         />
-        <Button title="setting" onPress={() => Actions.setting()} />
         <Text>Home</Text>
         {this.props.alarms.map((e, i) => {
           return <AlarmInfo info={e} index={i} />;

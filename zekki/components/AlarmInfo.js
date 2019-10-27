@@ -52,6 +52,7 @@ class AlarmInfo extends Component {
             switch={{
               onChange: () => {
                 this.setState({isActive: !this.state.isActive});
+
                 if (this.state.isActive) {
                   this.props.addActiveAlarm(this.props.index);
                   const alarmInfo = this.props.info;
