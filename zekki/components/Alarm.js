@@ -13,7 +13,7 @@ import {ActionConst} from 'react-native-router-flux';
 
 var music = {
   id: 'unique track id', // Must be a string, required
-  url: require('./trumpet1.mp3'), // Load media from the network
+  url: 'https://soundeffect-lab.info/sound/anime/mp3/trumpet1.mp3', // Load media from the network
 };
 
 class Alarm extends Component {
@@ -21,12 +21,12 @@ class Alarm extends Component {
     super(props);
     TrackPlayer.setupPlayer().then(() => {
       TrackPlayer.add([music]).then(function() {
-        // SystemSetting.setVolume(1.0);
+        SystemSetting.setVolume(1.0);
         TrackPlayer.play();
       });
 
       const volumeListener = SystemSetting.addVolumeListener(data => {
-        // SystemSetting.setVolume(1.0);
+        SystemSetting.setVolume(1.0);
       });
 
       TrackPlayer.addEventListener(
@@ -42,11 +42,13 @@ class Alarm extends Component {
       try {
         NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
           NfcManager.unregisterTagEvent().catch(() => 0);
-          if(this.props.nfcs.includes(tag.id)){
+          if (this.props.nfcs.includes(tag.id)) {
             TrackPlayer.stop();
             this.props.setIsRinging(false);
-          }else {
-            (async () => {await NfcManager.registerTagEvent()})();
+          } else {
+            (async () => {
+              await NfcManager.registerTagEvent();
+            })();
           }
         });
         await NfcManager.registerTagEvent();
@@ -58,15 +60,11 @@ class Alarm extends Component {
   render() {
     return (
       <View style={{flex: 4}}>
-      <Text h4 style={{top: 50, textAlign: 'center', color: 'gray'}}>
-        NFCをタッチしてください
-      </Text>
-      <Icon
-        name="nfc"
-        size={400}
-        containerStyle={{opacity: 0.1, top: 50}}
-      />
-    </View>
+        <Text h4 style={{top: 50, textAlign: 'center', color: 'gray'}}>
+          NFCをタッチしてください
+        </Text>
+        <Icon name="nfc" size={400} containerStyle={{opacity: 0.1, top: 50}} />
+      </View>
       // <View>
       //   {/* <Button
       //     title="Stop button"
@@ -79,14 +77,14 @@ class Alarm extends Component {
       //   />
       //   <Text>NFCをかざしてください</Text>
 
-      //   {/* <Button 
+      //   {/* <Button
       //     title="State button"
       //     onPress={() => {TrackPlayer.getState().then(state => {
       //       console.log(state)
       //       // console.log("event", playback-queue-ended)
       //     });
       //     }}
-      //   />  
+      //   />
       //  */}
       // </View>
     );
@@ -96,6 +94,7 @@ const mapStateToProps = state => {
   return {
     isRinging: state.isRinging,
     nfcs: state.nfcs,
+    defaultAlarm: state.defaultAlarm,
   };
 };
 
