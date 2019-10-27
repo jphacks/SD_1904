@@ -1,6 +1,6 @@
 # NFC-Alarm
 
-[![Product Name](image.png)](https://www.youtube.com/watch?v=G5rULR53uMk)
+[![NFC-Alarm](thumbnail.png)](https://youtu.be/4Ou4p3A-0Jk)
 
 ## 製品概要
 ### 絶起 x Tech
