@@ -10,7 +10,12 @@ var music = {
   id: 'unique track id', // Must be a string, required
   url: require('./trumpet1.mp3'), // Load media from the network
 };
+<<<<<<< Updated upstream
 export default class Alarm extends Component {
+=======
+
+class Alarm extends Component {
+>>>>>>> Stashed changes
   constructor(props){
     super(props);
     TrackPlayer.setupPlayer().then(() => {
@@ -34,7 +39,11 @@ export default class Alarm extends Component {
         NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
           NfcManager.unregisterTagEvent().catch(() => 0);
           console.warn('NFC read');
-          TrackPlayer.stop();
+          console.warn(tag.id);
+          console.warn(this.props.nfcs);
+          if(this.props.nfcs.includes(tag.id)){
+            TrackPlayer.stop();
+          }
         });
         await NfcManager.registerTagEvent();
       } catch (ex) {
@@ -68,3 +77,14 @@ export default class Alarm extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    nfcs: state.nfcs,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {},
+)(Alarm);
