@@ -28,7 +28,7 @@ export default class App extends Component {
                 component={Root}
                 _isRinging={this.props.alarmID}
                 onRight={() => Actions.setting()}
-                rightTitle = '⚙'
+                rightTitle="⚙"
               />
               <Scene key="addAlarm" component={AddAlarm} />
               <Scene key="setting" component={Setting} />

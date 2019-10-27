@@ -5,11 +5,15 @@ import {setIsRinging} from '../actions/isRinging';
 import Home from './Home';
 import Alarm from './Alarm';
 import {connect} from 'react-redux';
+import RNRestart from 'react-native-restart';
 
 class Root extends Component {
   constructor(props) {
     super(props);
     if (this.props._isRinging) {
+      if (!this.props.isRinging) {
+        RNRestart.Restart();
+      }
       this.props.setIsRinging(true);
     }
     if (!this.props._isRinging) {

@@ -21,12 +21,12 @@ class Alarm extends Component {
     super(props);
     TrackPlayer.setupPlayer().then(() => {
       TrackPlayer.add([music]).then(function() {
-        SystemSetting.setVolume(1.0);
+        // SystemSetting.setVolume(1.0);
         TrackPlayer.play();
       });
 
       const volumeListener = SystemSetting.addVolumeListener(data => {
-        SystemSetting.setVolume(1.0);
+        // SystemSetting.setVolume(1.0);
       });
 
       TrackPlayer.addEventListener(

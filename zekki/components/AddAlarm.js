@@ -189,7 +189,6 @@ class AddAlarm extends Component {
     state.alarmInfo.soundName = res.name;
     this.setState(state);
   }
-
 }
 
 const mapStateToProps = state => {
