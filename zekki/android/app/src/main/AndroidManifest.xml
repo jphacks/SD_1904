@@ -21,6 +21,7 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+      <receiver android:name="io.cmichel.appLauncher.AlarmReceiver" />   <!-- react-native-app-launcher -->
     </application>
 
 </manifest>

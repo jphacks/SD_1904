@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import {View, Text, Button} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import Launcher from 'react-native-app-launcher';
 import AlarmInfo from './AlarmInfo';
+import {addActiveAlarm, removeActiveAlarm} from '../actions/activeAlarms';
+import {connect} from 'react-redux';
+import {setIsRinging} from '../actions/isRinging';
 import { Icon, Avatar} from 'react-native-elements';
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,6 +47,13 @@ export default class Home extends Component {
           containerStyle={{position:"absolute",right:"5%",bottom:"5%"}}
           onPress={() => Actions.addAlarm({isDefault: false})}
         />
+        <Button
+          title="wakeup"
+          onPress={() =>
+            Launcher.setAlarm('0', new Date().getTime() + 10000, false)
+          }
+        />
+        <Button title="setting" onPress={() => Actions.setting()} />
         <Text>Home</Text>
         {this.state.alarms.map(e => {
           return <AlarmInfo info={e} />;
@@ -51,3 +62,20 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    alarms: state.alarms,
+    activeAlarms: state.activeAlarms,
+    isRinging: state.isRinging,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    addActiveAlarm,
+    removeActiveAlarm,
+    setIsRinging,
+  },
+)(Home);
