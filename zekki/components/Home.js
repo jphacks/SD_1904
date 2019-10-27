@@ -30,6 +30,7 @@ class Home extends Component {
         },
       ],
     };
+    
   }
 
   render() {
@@ -45,7 +46,12 @@ class Home extends Component {
             size:80,
           }}
           containerStyle={{position:"absolute",right:"5%",bottom:"5%"}}
-          onPress={() => Actions.addAlarm({isDefault: false})}
+          onPress={() => {
+            Actions.addAlarm({isDefault: false});
+
+          }}
+
+
         />
         <Button
           title="wakeup"
