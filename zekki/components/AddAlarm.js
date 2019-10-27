@@ -13,6 +13,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {Actions} from 'react-native-router-flux';
 import { Button, Avatar, Icon } from 'react-native-elements';
 // import Icon from 'react-native-vector-icons/FontAwesome';
+import DocumentPicker from 'react-native-document-picker';
 
 class AddAlarm extends Component {
   constructor(props) {
@@ -116,7 +117,7 @@ class AddAlarm extends Component {
             }
             title={this.state.alarmInfo.soundName}
             type="clear"
-            // onPress = {() => this.pickaudio()}
+            onPress = {() => this.pickaudio()}
             titleStyle={{fontSize:30}}
           />
           {/* <TextInput
@@ -187,6 +188,14 @@ class AddAlarm extends Component {
       </View>
     );
   }
+
+  async pickaudio() {
+    const res = await DocumentPicker.pick({
+      type: [DocumentPicker.types.audio],
+    });
+    console.log(res);
+  }
+  
 }
 
 const mapStateToProps = state => {
@@ -205,12 +214,5 @@ export default connect(
   },
 )(AddAlarm);
 
-// const styles = StyleSheet.create({
-//   active: {
-//     backgroundColor: 'black',
-//   },
-//   inactive: {
-//     backgroundColor: 'gray',
-//   },
-// });
+
 

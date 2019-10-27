@@ -36,13 +36,13 @@ class Home extends Component {
     return (
       <View style={{flex:1}}>
         <Avatar
-          size={100}
+          size={80}
           rounded
-          overlayContainerStyle={{backgroundColor: 'white'}}
+          overlayContainerStyle={{backgroundColor: 'transparent'}}
           icon={{              
             name:'add-circle-outline',
             color:"blue",
-            size:100,
+            size:80,
           }}
           containerStyle={{position:"absolute",right:"5%",bottom:"5%"}}
           onPress={() => Actions.addAlarm({isDefault: false})}
