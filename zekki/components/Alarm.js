@@ -6,6 +6,7 @@ import TrackPlayer from 'react-native-track-player';
 import SystemSetting from 'react-native-system-setting';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import {connect} from 'react-redux';
+import {Avatar, Icon} from 'react-native-elements';
 
 import TrackPlayerEventTypes from 'react-native-track-player';
 import {ActionConst} from 'react-native-router-flux';
@@ -52,26 +53,38 @@ class Alarm extends Component {
   }
   render() {
     return (
-      <View>
-        {/* <Button
-          title="Stop button"
-          onPress={() => {
-            TrackPlayer.stop();
-          }}
-        />    */}
+      <View style={{flex: 4}}>
+      <Text h4 style={{top: 50, textAlign: 'center', color: 'gray'}}>
+        NFCをタッチしてください
+      </Text>
+      <Icon
+        name="nfc"
+        size={400}
+        containerStyle={{opacity: 0.1, top: 50}}
+      />
+    </View>
+      // <View>
+      //   {/* <Button
+      //     title="Stop button"
+      //     onPress={() => {
+      //       TrackPlayer.stop();
+      //     }}
+      //   />    */}
+      //   <Icon
+      //   name='nfc'
+      //   />
+      //   <Text>NFCをかざしてください</Text>
 
-        <Text>NFCをかざしてください</Text>
-
-        {/* <Button 
-          title="State button"
-          onPress={() => {TrackPlayer.getState().then(state => {
-            console.log(state)
-            // console.log("event", playback-queue-ended)
-          });
-          }}
-        />  
-       */}
-      </View>
+      //   {/* <Button 
+      //     title="State button"
+      //     onPress={() => {TrackPlayer.getState().then(state => {
+      //       console.log(state)
+      //       // console.log("event", playback-queue-ended)
+      //     });
+      //     }}
+      //   />  
+      //  */}
+      // </View>
     );
   }
 }
