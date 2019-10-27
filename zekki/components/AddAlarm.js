@@ -187,6 +187,7 @@ class AddAlarm extends Component {
 
     const state = {...this.state};
     state.alarmInfo.soundName = res.name;
+    state.alarmInfo.sound = res.uri;
     this.setState(state);
   }
 }

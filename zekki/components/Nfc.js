@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, StyleSheet, Alert} from 'react-native';
 import {addNfc, removeNfc} from '../actions/nfc';
 import {connect} from 'react-redux';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
-import {ButtonGroup, Avatar, Icon, Text} from 'react-native-elements';
+import {ButtonGroup, Icon, Text} from 'react-native-elements';
 import * as Progress from 'react-native-progress';
 
 class Nfc extends Component {
@@ -33,8 +33,10 @@ class Nfc extends Component {
           NfcManager.setEventListener(NfcEvents.DiscoverTag, tag => {
             NfcManager.unregisterTagEvent().catch(() => 0);
             if (!this.props.nfcs.includes(tag.id)) {
-              const index = this.props.nfcs.indexOf(tag.id);
               this.props.addNfc(tag.id);
+              Alert.alert('登録しました');
+            } else {
+              Alert.alert('すでに登録されています');
             }
             this.setState({isReading: false});
           });
@@ -55,6 +57,9 @@ class Nfc extends Component {
               const index = this.props.nfcs.indexOf(tag.id);
 
               this.props.removeNfc(index);
+              Alert.alert('削除しました');
+            } else {
+              Alert.alert('登録されていません');
             }
             this.setState({isReading: false});
           });
@@ -93,7 +98,7 @@ class Nfc extends Component {
                   style={{position: 'absolute', bottom: '40%', right: '40%'}}
                 />
                 <Text h4 style={{top: 50, textAlign: 'center', color: 'gray'}}>
-                  読み込み中
+                  NFCをタッチしてください
                 </Text>
                 <Icon
                   name="nfc"
@@ -106,7 +111,7 @@ class Nfc extends Component {
             return (
               <View style={{flex: 4}}>
                 <Text h4 style={{top: 50, textAlign: 'center', color: 'gray'}}>
-                  NFCをタッチしてください
+                  下のボタンを押してください
                 </Text>
                 <Icon
                   name="nfc"

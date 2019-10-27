@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Text, View, ListView, FlatList, Switch} from 'react-native';
+import {View, Alert} from 'react-native';
 import {addActiveAlarm, removeActiveAlarm} from '../actions/activeAlarms';
-import {replaceAlarm} from '../actions/alarms';
+import {replaceAlarm, removeAlarm} from '../actions/alarms';
 import {connect} from 'react-redux';
 import Launcher from 'react-native-app-launcher';
-import {ListItem, CheckBox} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
 
 class AlarmInfo extends Component {
   constructor(props) {
@@ -13,6 +13,17 @@ class AlarmInfo extends Component {
     this.state = {
       isActive: this.props.info.isActive,
     };
+  }
+
+  removeAlarmInfo() {
+    this.props.removeActiveAlarm(
+      this.props.activeAlarms.indexOf(this.props.index),
+    );
+
+    this.props.removeAlarm(this.props.index, this.props.info);
+    if (this.state.isActive) {
+      Launcher.clearAlarm(this.props.index);
+    }
   }
 
   render() {
@@ -47,6 +58,21 @@ class AlarmInfo extends Component {
               kugi[0] +
               minutes[0].substring(minutes[0].length - 2, minutes[0].length)
             }
+            // onPress={Alert.alert(
+            //   '削除しますか？',
+            //   'いいえ',
+            //   [
+            //     {
+            //       text: 'OK',
+            //       // onPress: () => this.removeAlarmInfo(),
+            //     },
+            //     {
+            //       text: 'キャンセル',
+            //       style: 'cancel',
+            //     },
+            //   ],
+            //   {cancelable: false},
+            // )}
             titleStyle={{fontSize: 30}}
             subtitle={youma}
             switch={{
@@ -54,7 +80,9 @@ class AlarmInfo extends Component {
                 this.setState({isActive: !this.state.isActive});
 
                 if (this.state.isActive) {
-                  this.props.addActiveAlarm(this.props.index);
+                  this.props.removeActiveAlarm(
+                    this.props.activeAlarms.indexOf(this.props.index),
+                  );
                   const alarmInfo = this.props.info;
                   alarmInfo.isActive = false;
                   this.props.replaceAlarm(this.props.index, alarmInfo);
@@ -62,9 +90,7 @@ class AlarmInfo extends Component {
                   // remove alarm
                   Launcher.clearAlarm(this.props.index);
                 } else {
-                  this.props.removeActiveAlarm(
-                    this.props.activeAlarms.indexOf(this.props.index),
-                  );
+                  this.props.addActiveAlarm(this.props.index);
                   const alarmInfo = this.props.info;
                   alarmInfo.isActive = true;
                   this.props.replaceAlarm(this.props.index, alarmInfo);
@@ -115,5 +141,6 @@ export default connect(
     addActiveAlarm,
     removeActiveAlarm,
     replaceAlarm,
+    removeAlarm,
   },
 )(AlarmInfo);

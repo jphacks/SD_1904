@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import {Button, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import {setIsRinging} from '../actions/isRinging';
+import {removeActiveAlarm} from '../actions/activeAlarms';
+import {replaceAlarm} from '../actions/alarms';
 
 import TrackPlayer from 'react-native-track-player';
 import SystemSetting from 'react-native-system-setting';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import {connect} from 'react-redux';
-import {Avatar, Icon} from 'react-native-elements';
-
-import TrackPlayerEventTypes from 'react-native-track-player';
-import {ActionConst} from 'react-native-router-flux';
+import {Icon} from 'react-native-elements';
 
 var music = {
   id: 'unique track id', // Must be a string, required
@@ -20,11 +19,14 @@ class Alarm extends Component {
   constructor(props) {
     super(props);
     TrackPlayer.setupPlayer().then(() => {
-      TrackPlayer.add([music]).then(function() {
-        // SystemSetting.setVolume(1.0);
-        TrackPlayer.play();
-      });
-
+      TrackPlayer.add([music])
+        .then(function() {
+          // SystemSetting.setVolume(1.0);
+          TrackPlayer.play();
+        })
+        .catch(err => {
+          console.error(err);
+        });
       const volumeListener = SystemSetting.addVolumeListener(data => {
         // SystemSetting.setVolume(1.0);
       });
@@ -44,6 +46,13 @@ class Alarm extends Component {
           NfcManager.unregisterTagEvent().catch(() => 0);
           if (this.props.nfcs.includes(tag.id)) {
             TrackPlayer.stop();
+            this.props.removeActiveAlarm(
+              this.props.activeAlarms.indexOf(this.props.alarmID),
+            );
+            const alarmInfo = this.props.alarms[this.props.alarmID];
+            alarmInfo.isActive = false;
+            this.props.replaceAlarm(this.props.alarmID, alarmInfo);
+
             this.props.setIsRinging(false);
           } else {
             (async () => {
@@ -65,28 +74,6 @@ class Alarm extends Component {
         </Text>
         <Icon name="nfc" size={400} containerStyle={{opacity: 0.1, top: 50}} />
       </View>
-      // <View>
-      //   {/* <Button
-      //     title="Stop button"
-      //     onPress={() => {
-      //       TrackPlayer.stop();
-      //     }}
-      //   />    */}
-      //   <Icon
-      //   name='nfc'
-      //   />
-      //   <Text>NFCをかざしてください</Text>
-
-      //   {/* <Button
-      //     title="State button"
-      //     onPress={() => {TrackPlayer.getState().then(state => {
-      //       console.log(state)
-      //       // console.log("event", playback-queue-ended)
-      //     });
-      //     }}
-      //   />
-      //  */}
-      // </View>
     );
   }
 }
@@ -94,7 +81,8 @@ const mapStateToProps = state => {
   return {
     isRinging: state.isRinging,
     nfcs: state.nfcs,
-    defaultAlarm: state.defaultAlarm,
+    alarms: state.alarms,
+    activeAlarms: state.activeAlarms,
   };
 };
 
@@ -102,5 +90,7 @@ export default connect(
   mapStateToProps,
   {
     setIsRinging,
+    removeActiveAlarm,
+    replaceAlarm,
   },
 )(Alarm);
