@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Button} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import AlarmInfo from './AlarmInfo';
+import { Icon, Avatar} from 'react-native-elements';
 
 export default class Home extends Component {
   constructor(props) {
@@ -30,9 +31,17 @@ export default class Home extends Component {
 
   render() {
     return (
-      <View>
-        <Button
-          title="add"
+      <View style={{flex:1}}>
+        <Avatar
+          size={100}
+          rounded
+          overlayContainerStyle={{backgroundColor: 'white'}}
+          icon={{              
+            name:'add-circle-outline',
+            color:"blue",
+            size:100,
+          }}
+          containerStyle={{position:"absolute",right:"5%",bottom:"5%"}}
           onPress={() => Actions.addAlarm({isDefault: false})}
         />
         <Button title="setting" onPress={() => Actions.setting()} />
