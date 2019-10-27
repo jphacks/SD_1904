@@ -93,6 +93,7 @@ class Nfc extends Component {
           {(() => {
             if (this.state.isReading) {
               return (
+
                 <View style={{flex: 4,}}>
                 <Progress.Circle thickness={3} size={100} indeterminate={true} style={{position:'absolute', bottom:'40%',right:'40%'}} />
                 <Text h4 style={{top:50,textAlign:'center',color:'gray'}}>読み込み中</Text>
@@ -165,21 +166,19 @@ const styles = StyleSheet.create({
   },
   circle: {
     position: 'relative',
-    width:200,
-    height:200,
-    top:100,
-    bottom:100,
-    right:100,
-    left:100,
-    borderRadius:100,
+    width: 200,
+    height: 200,
+    top: 100,
+    bottom: 100,
+    right: 100,
+    left: 100,
+    borderRadius: 100,
 
-    backgroundColor:'blue',
+    backgroundColor: 'blue',
   },
-  text:{
-    top:50,
+  text: {
+    top: 50,
     fontSize: 30,
-    color:"white",
+    color: 'white',
   },
 });
-
-

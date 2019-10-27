@@ -11,7 +11,7 @@ import {setDefaultAlarm} from '../actions/defaultAlarm';
 import {connect} from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Actions} from 'react-native-router-flux';
-import { Button, Avatar, Icon } from 'react-native-elements';
+import {Button, Avatar, Icon} from 'react-native-elements';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import DocumentPicker from 'react-native-document-picker';
 
@@ -22,7 +22,7 @@ class AddAlarm extends Component {
     this.state = {
       show: false,
       alarmInfo: {...this.props.defaultAlarm},
-      date: new Date()
+      date: new Date(),
     };
   }
 
@@ -39,82 +39,74 @@ class AddAlarm extends Component {
     alarmInfoState.minutes = date.getMinutes();
     this.setState({
       show: false,
-      alarmInfo: alarmInfoState
+      alarmInfo: alarmInfoState,
     });
-  }
+  };
 
   timepicker = () => {
     this.setState({
-      show:true,
+      show: true,
     });
-  }
+  };
 
   render() {
     const days = ['月', '火', '水', '木', '金', '土', '日'];
     const show = this.state.show;
     return (
-      <View style={{flex:1,flexDirection:"column"}}>
-        
-        
+      <View style={{flex: 1, flexDirection: 'column'}}>
         {/* <Button title="button" onPress={() => this.showDatePicker()} /> */}
-    
 
-        <View style={{flex:1}}>
+        <View style={{flex: 1}}>
           <Button
-            titleStyle={{fontSize:110}}
-            icon={
-              <Icon
-              name="alarm"
-              size={110}
-              color="white"
-              />
+            titleStyle={{fontSize: 110}}
+            icon={<Icon name="alarm" size={110} color="white" />}
+            buttonStyle={{width: '100%', height: '100%'}}
+            title={
+              this.state.alarmInfo.hour.toString() +
+              ':' +
+              (0 + this.state.alarmInfo.minutes.toString()).slice(-2)
             }
-            buttonStyle={{width:"100%", height:"100%"}}
-            title={this.state.alarmInfo.hour.toString()+':'+(0+this.state.alarmInfo.minutes.toString()).slice(-2)}
-            onPress = {()=>{this.timepicker();}}
+            onPress={() => {
+              this.timepicker();
+            }}
           />
 
-          {show && <DateTimePicker 
-                        value = {new Date()}
-                        mode='time'
-                        is24Hour={true}
-                        display="default"
-                        onChange={this.setDate}
+          {show && (
+            <DateTimePicker
+              value={new Date()}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={this.setDate}
             />
-          }
-          
-
+          )}
         </View>
 
-        <View style={{flex:1, flexDirection: 'row'}}>
+        <View style={{flex: 1, flexDirection: 'row'}}>
           {this.state.alarmInfo.days.map((e, i) => {
             return (
-              
-              <Avatar 
-              rounded title={days[i]}
-              onPress = {() =>{
+              <Avatar
+                rounded
+                title={days[i]}
+                onPress={() => {
                   const state = {...this.state};
                   state.alarmInfo.days[i] = !state.alarmInfo.days[i];
                   this.setState(state);
-              }}
-              key={i}
-              size="medium"
-              overlayContainerStyle={e ? {backgroundColor:"white"} : {backgroundColor:"gray"}}
-              titleStyle={{color:"black"}}
-              containerStyle={{margin:2,alignSelf:'center'}}
+                }}
+                key={i}
+                size="medium"
+                overlayContainerStyle={
+                  e ? {backgroundColor: 'white'} : {backgroundColor: 'gray'}
+                }
+                titleStyle={{color: 'black'}}
+                containerStyle={{margin: 2, alignSelf: 'center'}}
               />
             );
           })}
         </View>
-        <View style={{flex:1}}>
+        <View style={{flex: 1}}>
           <Button
-            icon={
-              <Icon
-                name="queue-music"
-                size={30}
-                color="blue"
-              />
-            }
+            icon={<Icon name="queue-music" size={30} color="blue" />}
             title={this.state.alarmInfo.soundName}
             type="clear"
             onPress = {() => this.pickaudio()}
@@ -127,7 +119,6 @@ class AddAlarm extends Component {
             }}
           /> */}
         </View>
-
 
         {/* <View>
           <TextInput
@@ -180,11 +171,11 @@ class AddAlarm extends Component {
             if (this.props.isDefault) {
               this.props.setDefaultAlarm(this.state.alarmInfo);
             } else {
-              this.props.addAlarm();
+              this.props.addAlarm(this.state.alarmInfo);
             }
             Actions.pop();
           }}
-          />
+        />
       </View>
     );
   }
@@ -213,6 +204,3 @@ export default connect(
     setDefaultAlarm,
   },
 )(AddAlarm);
-
-
-

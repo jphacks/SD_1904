@@ -20,6 +20,7 @@ const initialState = {
   isRinging: false,
 };
 
+AsyncStorage.clear();
 const persistConfig = {
   key: 'zekki',
   storage: AsyncStorage,
@@ -29,5 +30,5 @@ const _persistReducer = persistReducer(persistConfig, reducers);
 const store = createStore(_persistReducer, initialState);
 
 const persistor = persistStore(store);
-
+persistor.purge();
 export {store, persistor};
