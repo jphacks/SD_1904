@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Button} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Launcher from 'react-native-app-launcher';
 import AlarmInfo from './AlarmInfo';
-import {addActiveAlarm, removeActiveAlarm} from '../actions/activeAlarms';
 import {addAlarm, removeAlarm} from '../actions/alarms';
 import {connect} from 'react-redux';
-import {Icon, Avatar} from 'react-native-elements';
+import {Avatar} from 'react-native-elements';
 
 class Home extends Component {
   constructor(props) {
@@ -31,7 +30,11 @@ class Home extends Component {
         <Button
           title="wakeup"
           onPress={() =>
-            Launcher.setAlarm('0', new Date().getTime() + 5000, false)
+            Launcher.setAlarm(
+              this.props.alarms[0].alarmID,
+              new Date().getTime() + 5000,
+              false,
+            )
           }
         />
         {this.props.alarms.map((e, i) => {

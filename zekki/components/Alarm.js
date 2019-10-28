@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-import {Button, View, Text} from 'react-native';
-import {setIsRinging} from '../actions/isRinging';
+import {View, Text} from 'react-native';
+import {setIsRinging, setAlarmID} from '../actions/isRinging';
+import {replaceAlarm} from '../actions/alarms';
 
 import TrackPlayer from 'react-native-track-player';
 import SystemSetting from 'react-native-system-setting';
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import {connect} from 'react-redux';
-import {Avatar, Icon} from 'react-native-elements';
-
-import TrackPlayerEventTypes from 'react-native-track-player';
-import {ActionConst} from 'react-native-router-flux';
+import {Icon} from 'react-native-elements';
 
 var music = {
   id: 'unique track id', // Must be a string, required
@@ -19,14 +17,26 @@ var music = {
 class Alarm extends Component {
   constructor(props) {
     super(props);
-    TrackPlayer.setupPlayer().then(() => {
-      TrackPlayer.add([music]).then(function() {
-        SystemSetting.setVolume(1.0);
-        TrackPlayer.play();
-      });
+    this.alarmInfo = null;
+    this.index = null;
+    for (let i = 0, len = this.props.alarms.length; i < len; i++) {
+      if (this.props.alarms[i].alarmID === this.props.alarmID) {
+        this.alarmInfo = this.props.alarms[i];
+        this.index = i;
+      }
+    }
 
+    TrackPlayer.setupPlayer().then(() => {
+      TrackPlayer.add([music])
+        .then(function() {
+          SystemSetting.setVolume(1.0);
+          TrackPlayer.play();
+        })
+        .catch(err => {
+          console.error(err);
+        });
       const volumeListener = SystemSetting.addVolumeListener(data => {
-        SystemSetting.setVolume(1.0);
+        // SystemSetting.setVolume(1.0);
       });
 
       TrackPlayer.addEventListener(
@@ -35,7 +45,6 @@ class Alarm extends Component {
           TrackPlayer.add([music]);
         },
       );
-      // The player is ready to be used
     });
 
     (async () => {
@@ -44,7 +53,11 @@ class Alarm extends Component {
           NfcManager.unregisterTagEvent().catch(() => 0);
           if (this.props.nfcs.includes(tag.id)) {
             TrackPlayer.stop();
+            this.alarmInfo.isActive = false;
+            this.props.replaceAlarm(this.index, this.alarmInfo);
+
             this.props.setIsRinging(false);
+            this.props.setAlarmID(null);
           } else {
             (async () => {
               await NfcManager.registerTagEvent();
@@ -65,28 +78,6 @@ class Alarm extends Component {
         </Text>
         <Icon name="nfc" size={400} containerStyle={{opacity: 0.1, top: 50}} />
       </View>
-      // <View>
-      //   {/* <Button
-      //     title="Stop button"
-      //     onPress={() => {
-      //       TrackPlayer.stop();
-      //     }}
-      //   />    */}
-      //   <Icon
-      //   name='nfc'
-      //   />
-      //   <Text>NFCをかざしてください</Text>
-
-      //   {/* <Button
-      //     title="State button"
-      //     onPress={() => {TrackPlayer.getState().then(state => {
-      //       console.log(state)
-      //       // console.log("event", playback-queue-ended)
-      //     });
-      //     }}
-      //   />
-      //  */}
-      // </View>
     );
   }
 }
@@ -94,7 +85,7 @@ const mapStateToProps = state => {
   return {
     isRinging: state.isRinging,
     nfcs: state.nfcs,
-    defaultAlarm: state.defaultAlarm,
+    alarms: state.alarms,
   };
 };
 
@@ -102,5 +93,7 @@ export default connect(
   mapStateToProps,
   {
     setIsRinging,
+    setAlarmID,
+    replaceAlarm,
   },
 )(Alarm);
