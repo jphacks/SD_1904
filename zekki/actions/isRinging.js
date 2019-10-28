@@ -7,13 +7,6 @@ export const setIsRinging = isRinging => {
   };
 };
 
-export const setIsRestarted = isRestarted => {
-  return {
-    type: SET_IS_RESTARTED,
-    isRestarted: isRestarted,
-  };
-};
-
 export const setAlarmID = alarmID => {
   return {
     type: SET_ALARM_ID,

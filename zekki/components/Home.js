@@ -30,7 +30,11 @@ class Home extends Component {
         <Button
           title="wakeup"
           onPress={() =>
-            Launcher.setAlarm(0, new Date().getTime() + 5000, false)
+            Launcher.setAlarm(
+              this.props.alarms[0].alarmID,
+              new Date().getTime() + 5000,
+              false,
+            )
           }
         />
         {this.props.alarms.map((e, i) => {

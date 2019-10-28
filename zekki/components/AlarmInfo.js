@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Alert, TouchableOpacity} from 'react-native';
-import {addActiveAlarm, removeActiveAlarm} from '../actions/activeAlarms';
 import {replaceAlarm, removeAlarm} from '../actions/alarms';
 import {connect} from 'react-redux';
 import Launcher from 'react-native-app-launcher';
@@ -13,14 +12,11 @@ class AlarmInfo extends Component {
   }
 
   removeAlarmInfo() {
-    this.props.removeActiveAlarm(
-      this.props.activeAlarms.indexOf(this.props.index),
-    );
-
-    this.props.removeAlarm(this.props.index, this.props.info);
     if (this.props.info.isActive) {
-      Launcher.clearAlarm(this.props.index);
+      Launcher.clearAlarm(this.props.alarms[this.props.index].alarmID);
     }
+
+    this.props.removeAlarm(this.props.index);
   }
 
   render() {
@@ -45,8 +41,8 @@ class AlarmInfo extends Component {
           hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
           onPress={() => {
             Alert.alert(
+              'アラームを削除',
               '削除しますか？',
-              'いいえ',
               [
                 {
                   text: 'OK',
@@ -72,17 +68,15 @@ class AlarmInfo extends Component {
             switch={{
               onChange: () => {
                 if (this.props.info.isActive) {
-                  this.props.removeActiveAlarm(
-                    this.props.activeAlarms.indexOf(this.props.index),
-                  );
                   const alarmInfo = this.props.info;
                   alarmInfo.isActive = false;
                   this.props.replaceAlarm(this.props.index, alarmInfo);
 
                   // remove alarm
-                  Launcher.clearAlarm(this.props.index);
+                  Launcher.clearAlarm(
+                    this.props.alarms[this.props.index].alarmID,
+                  );
                 } else {
-                  this.props.addActiveAlarm(this.props.index);
                   const alarmInfo = this.props.info;
                   alarmInfo.isActive = true;
                   this.props.replaceAlarm(this.props.index, alarmInfo);
@@ -114,7 +108,11 @@ class AlarmInfo extends Component {
                   date.setMilliseconds(0);
                   console.log(date);
                   // setalarm
-                  Launcher.setAlarm(this.props.index, date.getTime(), false);
+                  Launcher.setAlarm(
+                    this.props.alarms[this.props.index].alarmID,
+                    date.getTime(),
+                    false,
+                  );
                 }
               },
               value: this.props.info.isActive,
@@ -129,7 +127,6 @@ class AlarmInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    activeAlarms: state.activeAlarms,
     alarms: state.alarms,
   };
 };
@@ -137,8 +134,6 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    addActiveAlarm,
-    removeActiveAlarm,
     replaceAlarm,
     removeAlarm,
   },

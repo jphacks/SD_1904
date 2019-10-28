@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {setIsRinging, setAlarmID} from '../actions/isRinging';
-import {removeActiveAlarm} from '../actions/activeAlarms';
 import {replaceAlarm} from '../actions/alarms';
 
 import TrackPlayer from 'react-native-track-player';
@@ -18,10 +17,19 @@ var music = {
 class Alarm extends Component {
   constructor(props) {
     super(props);
+    this.alarmInfo = null;
+    this.index = null;
+    for (let i = 0, len = this.props.alarms.length; i < len; i++) {
+      if (this.props.alarms[i].alarmID === this.props.alarmID) {
+        this.alarmInfo = this.props.alarms[i];
+        this.index = i;
+      }
+    }
+
     TrackPlayer.setupPlayer().then(() => {
       TrackPlayer.add([music])
         .then(function() {
-          SystemSetting.setVolume(1.0);
+          //SystemSetting.setVolume(1.0);
           TrackPlayer.play();
         })
         .catch(err => {
@@ -45,12 +53,8 @@ class Alarm extends Component {
           NfcManager.unregisterTagEvent().catch(() => 0);
           if (this.props.nfcs.includes(tag.id)) {
             TrackPlayer.stop();
-            this.props.removeActiveAlarm(
-              this.props.activeAlarms.indexOf(this.props.alarmID),
-            );
-            const alarmInfo = this.props.alarms[this.props.alarmID];
-            alarmInfo.isActive = false;
-            this.props.replaceAlarm(this.props.alarmID, alarmInfo);
+            this.alarmInfo.isActive = false;
+            this.props.replaceAlarm(this.index, this.alarmInfo);
 
             this.props.setIsRinging(false);
             this.props.setAlarmID(null);
@@ -82,7 +86,6 @@ const mapStateToProps = state => {
     isRinging: state.isRinging,
     nfcs: state.nfcs,
     alarms: state.alarms,
-    activeAlarms: state.activeAlarms,
   };
 };
 
@@ -91,7 +94,6 @@ export default connect(
   {
     setIsRinging,
     setAlarmID,
-    removeActiveAlarm,
     replaceAlarm,
   },
 )(Alarm);

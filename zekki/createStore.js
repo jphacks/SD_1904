@@ -5,9 +5,9 @@ import {persistReducer, persistStore} from 'redux-persist';
 
 const initialState = {
   alarms: [],
-  activeAlarms: [],
   nfcs: [],
   defaultAlarm: {
+    alarmID: null,
     hour: 9,
     minutes: 0,
     days: [true, true, true, true, true, true, true],
@@ -19,7 +19,6 @@ const initialState = {
   },
   isRinging: {
     isRinging: false,
-    isRestarted: false,
     alarmID: null,
   },
 };

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {setIsRinging, setIsRestarted, setAlarmID} from '../actions/isRinging';
+import {setIsRinging, setAlarmID} from '../actions/isRinging';
 import Home from './Home';
 import Alarm from './Alarm';
 import {connect} from 'react-redux';
@@ -13,7 +13,10 @@ class Root extends Component {
     if (_isRinging) {
       if (!this.props.isRinging.alarmID) {
         this.props.setAlarmID(this.props.alarmID);
-        RNRestart.Restart();
+
+        this.props.setIsRinging(true);
+        //実機でバグがありそう
+        // RNRestart.Restart();
       } else {
         this.props.setIsRinging(true);
       }
@@ -39,7 +42,6 @@ export default connect(
   mapStateToProps,
   {
     setIsRinging,
-    setIsRestarted,
     setAlarmID,
   },
 )(Root);
