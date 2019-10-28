@@ -29,7 +29,7 @@ class Alarm extends Component {
     TrackPlayer.setupPlayer().then(() => {
       TrackPlayer.add([music])
         .then(function() {
-          //SystemSetting.setVolume(1.0);
+          SystemSetting.setVolume(1.0);
           TrackPlayer.play();
         })
         .catch(err => {
